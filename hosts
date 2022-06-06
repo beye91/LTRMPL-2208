@@ -14,3 +14,14 @@ xr-8 ansible_host=198.18.1.38
 [all:children]
 iosxr
 iosxe
+
+[all:vars]
+ansible_connection: ansible.netcommon.network_cli
+ansible_user: cisco
+ansible_password: C1sco12345
+
+[iosxr:vars]
+ansible_network_os: cisco.iosxr.iosxr
+
+[iosxe:vars]
+ansible_network_os: cisco.iosxe.iosxe
