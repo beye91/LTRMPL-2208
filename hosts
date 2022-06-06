@@ -11,6 +11,6 @@ xr-9 ansible_host=198.18.1.39
 xr-7 ansible_host=198.18.1.37
 xr-8 ansible_host=198.18.1.38
 
-[all]
+[all:children]
 iosxr
 iosxe
