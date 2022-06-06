@@ -1,0 +1,16 @@
+[iosxr]
+xr-1 ansible_host=198.18.1.31
+xr-2 ansible_host=198.18.1.32
+xr-3 ansible_host=198.18.1.33
+xr-4 ansible_host=198.18.1.34
+xr-5 ansible_host=198.18.1.35
+xr-6 ansible_host=198.18.1.36
+xr-9 ansible_host=198.18.1.39
+
+[iosxe]
+xr-7 ansible_host=198.18.1.37
+xr-8 ansible_host=198.18.1.38
+
+[all]
+iosxr
+iosxe
