@@ -2,7 +2,7 @@
   vars_files:
     - credentials.yaml
   gather_facts: no
-  connection: local
+  connection: ansible.netcommon.network_cli
   tasks:
     - name: run show version on remote devices
       cisco.iosxr.iosxr_command:
