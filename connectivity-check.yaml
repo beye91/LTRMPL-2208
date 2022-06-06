@@ -1,0 +1,9 @@
+- hosts: iosxr
+  vars_files:
+    - credentials.yaml
+  gather_facts: no
+  connection: local
+  tasks:
+    - name: run show version on remote devices
+      cisco.iosxr.iosxr_command:
+        commands: show version
