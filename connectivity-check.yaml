@@ -4,3 +4,5 @@
     - name: run show version on remote devices
       cisco.iosxr.iosxr_command:
         commands: show version
+      register: show_version
+    - debug: var=show_version 
