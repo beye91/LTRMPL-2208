@@ -1,4 +1,4 @@
-- hosts: iosxe
+- hosts: iosxr
   gather_facts: no
   tasks:
     - name: run show version on remote devices
