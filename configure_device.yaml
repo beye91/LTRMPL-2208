@@ -19,5 +19,5 @@
         - show mpls forwarding
       register: show_output
     - ansible.builtin.set_fact:
-        show_output: "{{ show_output.stdout[0] | replace('\\n', '\n')  }}"
-    - debug: var=show_output
+        show_output_changed: "{{ show_output.stdout[0-2] | replace('\\n', '\n')  }}"
+    - debug: var=show_output_changed
