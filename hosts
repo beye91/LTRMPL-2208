@@ -1,3 +1,4 @@
+---
 [iosxr]
 xr-1 ansible_host=198.18.1.31
 xr-2 ansible_host=198.18.1.32
