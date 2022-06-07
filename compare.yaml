@@ -5,7 +5,11 @@
       cisco.iosxr.iosxr_command:
         commands: show running-config
       register: show_running_config
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: /tmp/LTRPML-2208/current_configs/iosxr/
+        state: directory
     - name: Copy config
-      local_action: copy content="{{ show_running_config.stdout_lines }}" dest=/home/cisco/LTRPML-2208/current_configs/iosxr/{{ inventory_hostname }}.txt
+      local_action: copy content="{{ show_running_config.stdout_lines }}" dest=/tmp/LTRPML-2208/current_configs/iosxr/{{ inventory_hostname }}.txt
     - name: Print Output
       debug: var=show_running_config 
