@@ -14,7 +14,7 @@
         copy content="{{ show_running_config.stdout[0] | replace('\\n', '\n') }}" 
         dest=/tmp/LTRPML-2208/current_configs/iosxr/{{ inventory_hostname }}.txt
     - name: Replace Strings
-      ansible.builtin.replace:
+      lineinfile:
         path: /tmp/LTRPML-2208/current_configs/iosxr/{{ inventory_hostname }}.txt
         regexp: '^(!!.*)'
-        replace: ''
+        state: absent
