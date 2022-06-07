@@ -15,7 +15,7 @@
         dest=/tmp/LTRMPL-2208/current_configs/iosxr/{{ inventory_hostname }}.txt
     - name: Replace Strings
       lineinfile:
-        path: /tmp/LTRPML-2208/current_configs/iosxr/{{ inventory_hostname }}.txt
+        path: /tmp/LTRMPL-2208/current_configs/iosxr/{{ inventory_hostname }}.txt
         regexp: '^(!!.*)'
         state: absent
     - name: Register current file
