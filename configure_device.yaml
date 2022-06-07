@@ -18,4 +18,6 @@
         - show ip route vrf all 
         - show mpls forwarding
       register: show_output
-    - debug: var={{show_output.stdout[0] | replace('\\n', '\n')}}
+    - ansible.builtin.set_fact:
+        show_output: "{{ show_output.stdout[0] | replace('\\n', '\n')  }}"
+    - debug: var=show_output
