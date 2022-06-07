@@ -16,10 +16,5 @@
     - name: Replace Strings
       lineinfile:
         path: /tmp/LTRPML-2208/current_configs/iosxr/{{ inventory_hostname }}.txt
-        regexp: '(^!!.*)'
-        state: absent
-    - name: Replace Strings
-      lineinfile:
-        path: /tmp/LTRPML-2208/current_configs/iosxr/{{ inventory_hostname }}.txt
-        regexp: '(^!.*)'
+        regexp: '^(!!.*)|(!.*)'
         state: absent
