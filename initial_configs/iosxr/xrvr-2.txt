@@ -1,3 +1,5 @@
+Building configuration...
+!
 hostname xrvr-2
 logging console disable
 domain name cisco-live.lab

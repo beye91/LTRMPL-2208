@@ -1,3 +1,5 @@
+Building configuration...
+!
 hostname xrvr-9
 logging console disable
 telnet vrf Mgmt-intf ipv4 server max-servers 10

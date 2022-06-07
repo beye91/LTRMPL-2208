@@ -18,3 +18,22 @@
         path: /tmp/LTRPML-2208/current_configs/iosxr/{{ inventory_hostname }}.txt
         regexp: '^(!!.*)'
         state: absent
+
+    - name: Register current file
+      stat:
+        path: "/tmp/LTRPML-2208/current_configs/iosxr/{{ inventory_hostname }}.txt"
+        checksum: sha1
+        get_checksum: yes
+      register: current_checksum
+
+    - name: Register initial
+      stat:
+        path: "/home/cisco/LTRPML-2208/initial_configs/iosxr/{{ inventory_hostname }}.txt"
+        checksum: sha1
+        get_checksum: yes
+      register: inital_checksum
+
+    - name: Check if the files are the same
+      debug: msg="The /tmp/LTRPML-2208/current_configs/iosxr/{{ inventory_hostname }}.txt and /home/cisco/LTRPML-2208/initial_configs/iosxr/{{ inventory_hostname }}.txt are identical"
+      failed_when: current_checksum.stat.checksum != inital_checksum.stat.checksum
+      ignore_errors: true
