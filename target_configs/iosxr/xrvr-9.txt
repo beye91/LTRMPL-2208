@@ -1,0 +1,130 @@
+Building configuration...
+!
+hostname xrvr-9
+logging console disable
+telnet vrf Mgmt-intf ipv4 server max-servers 10
+cdp
+vrf Mgmt-intf
+ address-family ipv4 unicast
+ !
+ address-family ipv6 unicast
+ !
+!
+line console
+ exec-timeout 0 0
+ absolute-timeout 0
+ session-timeout 0
+!
+line default
+ exec-timeout 0 0
+ absolute-timeout 0
+ session-timeout 0
+!
+alias e5 show bgp summary
+alias e6 show bgp vpnv4 unicast summary
+alias h1 pce; address ipv4 100.0.0.9; commit; end
+alias h2 router bgp 64001;address-family link-state link-state;neighbor 100.0.0.2; address-family link-state link-state; commit; end
+alias h3 show bgp link-state link-state
+alias h4 show bgp link-state link-state | i [V] | i 1000.0000.0002
+alias h5 show bgp link-state link-state [V][L2][I0x0][N[c64001][b0.0.0.0][s1000.0000.0002.00]]/328 detail
+alias h6 show bgp link-state link-state | incl [E] | incl 99.1.2.1
+alias h7 show bgp link-state link-state [E][L2][I0x0][N[c64001][b0.0.0.0][s1000.0000.0001.00]][R[c64001][b0.0.0.0][s1000.0000.0002.00]][L[i99.1.2.1][n99.1.2.2]]/696 detail
+alias h8 show bgp link-state link-state | inclu [T] | incl 100.0.0.1
+alias h9 show bgp link-state link-state [T][L2][I0x0][N[c64001][b0.0.0.0][s1000.0000.0001.00]][P[p100.0.0.1/32]]/400 detail
+alias i8 (LABEL) show pce lsp pcc ipv4 100.0.0.1 tunnel-id $LABEL detail
+alias j3 show pce lsp detail
+alias h10 show pce ipv4 topology summary
+alias h11 show bgp link-state link-state | i [E] | in 99.2.3.3
+alias h12 show bgp link-state link-state [E][B][I0x0][N[c64001][b0.0.0.0][q100.0.0.2]][R[c64002][b0.0.0.0][q100.0.0.3]][L[i99.2.3.2][n99.2.3.3]]/664 detail
+alias h13 show pce ipv4 topology 100.0.0.2 | utility egrep -A10 "local address 99.2.3.2"
+interface Loopback0
+ description Loopback
+ ipv4 address 100.0.0.9 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ vrf Mgmt-intf
+ ipv4 address 198.18.1.39 255.255.255.0
+!
+interface GigabitEthernet0/0/0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/1
+ shutdown
+!
+interface GigabitEthernet0/0/0/2
+ shutdown
+!
+interface GigabitEthernet0/0/0/3
+ shutdown
+!
+interface GigabitEthernet0/0/0/4
+ description to xrvr-2
+ ipv4 address 99.2.9.9 255.255.255.0
+!
+route-policy ALL
+  pass
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 99.2.9.2
+  100.0.0.0/24 Null0
+ !
+ vrf Mgmt-intf
+  address-family ipv4 unicast
+   10.16.0.0/16 198.18.1.1
+   10.64.0.0/16 198.18.1.1
+   198.18.128.0/18 198.18.1.1
+  !
+ !
+!
+router isis 1
+ is-type level-2-only
+ net 49.0001.1000.0000.0009.00
+ address-family ipv4 unicast
+  metric-style wide
+ !
+ interface Loopback0
+  passive
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/4
+  point-to-point
+  address-family ipv4 unicast
+  !
+ !
+!
+router bgp 64001
+ address-family ipv4 unicast
+  network 100.0.0.9/32
+ !
+ address-family vpnv4 unicast
+ !
+ address-family link-state link-state
+ !
+ ! ibgp to xrvr-1
+ neighbor 100.0.0.1
+  remote-as 64001
+  description to xrvr-1
+  update-source Loopback0
+  address-family ipv4 unicast
+   route-reflector-client
+  !
+  address-family vpnv4 unicast
+   route-reflector-client
+  !
+ !
+ ! ibgp to xrvr-2
+ neighbor 100.0.0.2
+  remote-as 64001
+  description to xrvr-2
+  update-source Loopback0
+  address-family ipv4 unicast
+   route-reflector-client
+  !
+ !
+!
+ssh server v2
+ssh server vrf Mgmt-intf
+end

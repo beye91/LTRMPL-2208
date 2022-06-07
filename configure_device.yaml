@@ -1,0 +1,12 @@
+- hosts: iosxr
+  gather_facts: no
+  tasks:
+    - name: load a config from disk and replace the current config
+      cisco.iosxr.iosxr_config:
+        src: "/home/cisco/LTRMPL-2208/target_configs/iosxr/{{ inventory_hostname }}.txt"
+        replace: config
+
+    - name: Get running config
+      cisco.iosxr.iosxr_command:
+        commands: show running-config
+      register: show_running_config
