@@ -16,12 +16,12 @@ iosxr
 iosxe
 
 [all:vars]
-ansible_connection: ansible.netcommon.network_cli
-ansible_user: cisco
-ansible_password: C1sco12345
+ansible_connection=ansible.netcommon.network_cli
+ansible_user=cisco
+ansible_password=C1sco12345
 
 [iosxr:vars]
-ansible_network_os: cisco.iosxr.iosxr
+ansible_network_os=cisco.iosxr.iosxr
 
 [iosxe:vars]
-ansible_network_os: cisco.iosxe.iosxe
+ansible_network_os=cisco.iosxe.iosxe
