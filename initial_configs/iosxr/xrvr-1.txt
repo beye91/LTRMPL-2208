@@ -1,0 +1,228 @@
+hostname xrvr-1
+logging console disable
+domain name cisco-live.lab
+telnet vrf Mgmt-intf ipv4 server max-servers 10
+vrf RED
+ address-family ipv4 unicast
+  import route-target
+   1:1
+  !
+  export route-target
+   1:1
+  !
+ !
+!
+vrf Mgmt-intf
+ address-family ipv4 unicast
+ !
+ address-family ipv6 unicast
+ !
+!
+line console
+ exec-timeout 0 0
+ absolute-timeout 0
+ session-timeout 0
+!
+line default
+ exec-timeout 0 0
+ absolute-timeout 0
+ session-timeout 0
+!
+alias a1 show route ipv4
+alias a2 show running-config router bgp
+alias a3 show running-config route-policy ALL
+alias a4 show running-config router bgp
+alias a6 show running-config mpls ldp
+alias a7 show mpls ldp neighbor brief
+alias b1 router isis 1; address-family ipv4 unicast; segment-routing mpls;commit; end
+alias b2 show isis database xrvr-1 verbose detail
+alias b3 show mpls label table
+alias b4 segment-routing; global-block 19000 20999; commit; end
+alias b5 show isis database xrvr-1 verbose detail
+alias b6 show mpls label table
+alias b7 router isis 1; interface loopback0; address-family ipv4 unicast; prefix-sid absolute 19001;commit; end
+alias b8 show isis segment-routing label table
+alias c1 router isis 1; address-family ipv4 unicast; segment-routing mpls sr-prefer;commit; end
+alias c3 show isis route 100.0.0.4/32 detail
+alias c4 show route 100.0.0.4/32 detail
+alias c5 show cef vrf RED 100.0.0.8/32
+alias c6 no mpls ldp; commit; end
+alias c7 show running-config mpls
+alias c8 show running-config mpls traffic-eng
+alias c9 show mpls forwarding
+alias d1 router isis 1; address-family ipv4 unicast; mpls traffic-eng level-2-only; mpls traffic-eng router-id loopback0; root; mpls traffic-eng;commit;end
+alias d2 interface tunnel-te20; ipv4 unnumbered loopback0; destination 100.0.0.4; autoroute destination 100.0.0.4; path-option 1 dynamic segment-routing;commit;end
+alias d3 show mpls traffic-eng tunnels 20
+alias d4 show mpls traffic-eng tunnels 20 detail | i Bind
+alias d5 show route 100.0.0.4/32
+alias d6 show mpls forwarding tunnels
+alias d7 show mpls forwarding tunnels detail
+alias d8 explicit-path name SIDLIST1; index 10 next-label 19002; index 20 next-label 19003; index 30 next-label 19005; index 40 next-label 19004;commit;end
+alias d9 interface tunnel-te1; ipv4 unnumbered loopback0; destination 100.0.0.4; autoroute destination 100.0.0.4; path-option 1 explicit name SIDLIST1 segment-routing; commit;end
+alias e6 show isis segment-routing label table
+alias f1 show route 100.0.0.4/32
+alias f2 show isis segment-routing label table
+alias f3 sh bgp vrf RED 100.0.0.8/32
+alias f4 show cef vrf RED 100.0.0.8/32
+alias f5 show mpls traffic-eng tunnels 20
+alias f6 show mpls traffic-eng tunnels 1
+alias f7 show bgp egress-engineering
+alias f8 (LABEL) explicit-path name SIDLIST1; index 10 next-label 19002; index 20 next-label $LABEL; index 30 next-label 19005; index 40 next-label 19004;commit;end
+alias f9 show mpls traffic-eng tunnels 1
+alias g1 show bgp egress-engineering
+alias g2 (LABEL) segment-routing;traffic-eng; segment-list name SIDLIST2; index 10 mpls label 19002; index 20 mpls label $LABEL; index 30 mpls label 19005; index 40 mpls label 19004;commit;end
+alias g3 segment-routing; traffic-eng; policy POL1;color 10  end-point ipv4 100.0.0.4; binding-sid mpls 4000; path; preference 10; explicit segment-list SIDLIST2;commit;end
+alias g4 show segment-routing traffic-eng policy
+alias g5 show mpls forwarding labels 4000
+alias g6 show mpls forwarding tunnels
+alias g7 show mpls forwarding tunnels detail | begin POL1
+alias i1 show running-config route-policy ODN-Reach
+alias i2 mpls traffic-eng; attribute-set p2p-te ODN-IGP; pce; path-selection; metric igp; commit; end
+alias i3 router bgp 64001; neighbor 100.0.0.9; address-family vpnv4 unicast; route-policy ODN-Reach in; commit; end
+alias i4 show bgp vrf RED
+alias i5 show bgp vrf RED 100.0.0.8/32
+alias i6 (LABEL) show mpls forwarding labels $LABEL
+alias i7 (LABEL) show  mpls  traffic-eng  tunnels $LABEL
+alias i9 show cef vrf RED 100.0.0.8/32
+alias j1 interface tunnel-te 21; ipv4 unnumbered loopback 0; destination 100.0.0.4; path-selection; metric igp; path-option 1 dynamic pce segment-routing; commit; end
+alias j2 show  mpls traffic-eng  tunnels 21 detail | in "Name:|Metri Type|Bind|Segment"
+alias k1 show isis adjacency systemid xrvr-2 detail
+alias k2 router isis 1; interface GigabitEthernet 0/0/0/0; address-family ipv4 unicast; fast-reroute per-prefix; fast-reroute per-prefix ti-lfa;exit;exit; interface GigabitEthernet 0/0/0/1;address-family ipv4 unicast; fast-reroute per-prefix; fast-reroute per-prefix ti-lfa;exit;exit; commit;end
+alias k3 show isis fast-reroute 100.0.0.4/32 detail
+alias k4 show route 100.0.0.4/32 detail
+alias k5 sh cef 100.0.0.4/32
+alias k6 show isis adjacency systemid xrvr-2 detail
+alias k7 router isis 1; interface GigabitEthernet 0/0/0/0; address-family ipv4 unicast; no fast-reroute per-prefix; no fast-reroute per-prefix ti-lfa;exit;exit; interface GigabitEthernet 0/0/0/1;address-family ipv4 unicast;no fast-reroute per-prefix;no fast-reroute per-prefix ti-lfa;exit;exit; commit;end
+alias a10 show cef vrf RED 100.0.0.8/32
+alias a11 show running-config segment-routing
+alias c10 show mpls label table detail
+alias d10 show mpls traffic-eng tunnels 1
+alias d11 show mpls traffic-eng tunnels 1 detail | i Bind
+alias d12 traceroute 100.0.0.4 source loopback0
+alias f10 show mpls traffic-eng tunnels 1 detail | i Bind
+alias f11 show mpls forwarding tunnels
+alias f12 show mpls forwarding tunnels 1 detail
+alias h14 mpls traffic-eng;pce; peer source ipv4 100.0.0.1; peer ipv4 100.0.0.9;exit;segment-routing;stateful-client;commit;end
+alias h15 show mpls traffic-eng pce peer
+alias i10 traceroute vrf RED 100.0.0.8
+ipv4 unnumbered mpls traffic-eng Loopback0
+interface Loopback0
+ description Loopback
+ ipv4 address 100.0.0.1 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ vrf Mgmt-intf
+ ipv4 address 198.18.1.31 255.255.255.0
+!
+interface GigabitEthernet0/0/0/0
+ description to xrvr-2
+ cdp
+ ipv4 address 99.1.2.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0/1
+ description to xrvr-6
+ cdp
+ ipv4 address 99.1.6.1 255.255.255.0
+!
+interface GigabitEthernet0/0/0/2
+ shutdown
+!
+interface GigabitEthernet0/0/0/3
+ description to xrvr-7
+ cdp
+ vrf RED
+ ipv4 address 99.1.7.1 255.255.255.0
+!
+interface preconfigure GigabitEthernet0/0/0/4
+!
+route-policy ALL
+  pass
+end-policy
+!
+route-policy ODN-Reach
+  if next-hop in (100.0.0.4/32) then
+    set mpls traffic-eng attributeset ODN-IGP
+  endif
+  pass
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  100.0.0.0/24 Null0 254
+ !
+ vrf Mgmt-intf
+  address-family ipv4 unicast
+   10.16.0.0/16 198.18.1.1
+   10.64.0.0/16 198.18.1.1
+   198.18.128.0/18 198.18.1.1
+  !
+ !
+!
+router isis 1
+ is-type level-2-only
+ net 49.0001.1000.0000.0001.00
+ address-family ipv4 unicast
+  metric-style wide
+ !
+ interface Loopback0
+  passive
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  point-to-point
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  point-to-point
+  address-family ipv4 unicast
+  !
+ !
+!
+router bgp 64001
+ bgp router-id 100.0.0.1
+ address-family ipv4 unicast
+ !
+ address-family vpnv4 unicast
+ !
+ neighbor 100.0.0.4
+  remote-as 64001
+  description to xrvr-4
+  update-source Loopback0
+  address-family vpnv4 unicast
+  !
+ !
+ neighbor 100.0.0.9
+  remote-as 64001
+  description to xrvr-9
+  update-source Loopback0
+  address-family ipv4 unicast
+  !
+  address-family vpnv4 unicast
+  !
+ !
+ vrf RED
+  rd 1:1
+  address-family ipv4 unicast
+  !
+  neighbor 99.1.7.7
+   remote-as 3
+   address-family ipv4 unicast
+    route-policy ALL in
+    route-policy ALL out
+   !
+  !
+ !
+!
+mpls ldp
+ router-id 100.0.0.1
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+!
+ssh server v2
+ssh server vrf Mgmt-intf
+end
+

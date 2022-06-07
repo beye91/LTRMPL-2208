@@ -1,8 +1,9 @@
 - hosts: iosxr
   gather_facts: no
   tasks:
-    - name: run show version on remote devices
+    - name: Execute show version 
       cisco.iosxr.iosxr_command:
         commands: show version
       register: show_version
-    - debug: var=show_version 
+    - name: Print Output
+      debug: var=show_version 

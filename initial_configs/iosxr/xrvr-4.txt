@@ -1,0 +1,189 @@
+hostname xrvr-4
+logging console disable
+domain name cisco-live.lab
+telnet vrf Mgmt-intf ipv4 server max-servers 10
+cdp
+vrf RED
+ address-family ipv4 unicast
+  import route-target
+   1:1
+  !
+  export route-target
+   1:1
+  !
+ !
+!
+vrf Mgmt-intf
+ address-family ipv4 unicast
+ !
+ address-family ipv6 unicast
+ !
+!
+line console
+ exec-timeout 0 0
+ absolute-timeout 0
+ session-timeout 0
+!
+line default
+ exec-timeout 0 0
+ absolute-timeout 0
+ session-timeout 0
+!
+alias a1 show route ipv4
+alias a2 show running-config router bgp
+alias a6 show running-config mpls ldp
+alias a7 show mpls ldp neighbor brief
+alias b1 router isis 1; address-family ipv4 unicast; segment-routing mpls;commit; end
+alias b2 show isis database xrvr-1 verbose detail
+alias b3 show mpls label table
+alias b4 segment-routing; global-block 19000 20999; commit; end
+alias b5 show isis database xrvr-1 verbose detail
+alias b6 show mpls label table
+alias b7 router isis 1; interface loopback0; address-family ipv4 unicast; prefix-sid absolute 19004;commit; end
+alias b8 show isis segment-routing label table
+alias c1 router isis 1; address-family ipv4 unicast; segment-routing mpls sr-prefer;commit; end
+alias c4 show route 100.0.0.1/32 detail
+alias c5 show cef vrf RED 100.0.0.7/32
+alias c6 no mpls ldp; commit; end
+alias c7 show running-config mpls
+alias c8 show running-config mpls traffic-eng
+alias c9 show mpls forwarding
+alias d1 router isis 1; address-family ipv4 unicast; mpls traffic-eng level-2-only; mpls traffic-eng router-id loopback0; root; mpls traffic-eng;commit;end
+alias e3 no router bgp 64001;commit;router bgp 64002;address-family ipv4 unicast; address-family vpnv4 unicast; neighbor 100.0.0.10;remote-as 64002;update-source loopback0;address-family ipv4 unicast;address-family vpnv4 unicast; vrf RED; rd 1:1;address-family ipv4 unicast; neighbor 99.4.8.8; remote-as 2; address-family ipv4 unicast;route-policy ALL in; route-policy ALL out;commit;end
+alias e6 show isis segment-routing label table
+alias i1 show running-config route-policy ODN-Reach
+alias i2 mpls traffic-eng; attribute-set p2p-te ODN-IGP; pce; path-selection; metric igp; commit; end
+alias i3 router bgp 64002; neighbor 100.0.0.10; address-family vpnv4 unicast; route-policy ODN-Reach in; commit; end
+alias i4 show bgp vrf RED
+alias i5 show bgp vrf RED 100.0.0.7/32
+alias i6 (LABEL) show mpls forwarding labels $LABEL
+alias i7 (LABEL) show  mpls  traffic-eng  tunnels $LABEL
+alias i9 show cef vrf RED 100.0.0.7/32
+alias j1 interface tunnel-te 21; ipv4 unnumbered loopback 0; destination 100.0.0.1; path-selection; metric igp; path-option 1 dynamic pce segment-routing; commit; end
+alias j2 show  mpls traffic-eng  tunnels 21 detail | in "Name:|Metri Type|Bind|Segment"
+alias a10 show cef vrf RED 100.0.0.7/32
+alias a11 show running-config segment-routing
+alias c10 show mpls label table detail
+alias h14 mpls traffic-eng;pce; peer source ipv4 100.0.0.4; peer ipv4 100.0.0.10;exit;segment-routing;stateful-client;commit;end
+alias h15 show mpls traffic-eng pce peer
+alias i10 traceroute vrf RED 100.0.0.7
+ipv4 unnumbered mpls traffic-eng Loopback0
+interface Loopback0
+ description Loopback
+ ipv4 address 100.0.0.4 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ vrf Mgmt-intf
+ ipv4 address 198.18.1.34 255.255.255.0
+!
+interface GigabitEthernet0/0/0/0
+ description to xrvr-3
+ cdp
+ ipv4 address 99.3.4.4 255.255.255.0
+!
+interface GigabitEthernet0/0/0/1
+ description to xrvr-5
+ cdp
+ ipv4 address 99.4.5.4 255.255.255.0
+!
+interface GigabitEthernet0/0/0/2
+ shutdown
+!
+interface GigabitEthernet0/0/0/3
+ description to xrvr-8
+ cdp
+ vrf RED
+ ipv4 address 99.4.8.4 255.255.255.0
+!
+interface preconfigure GigabitEthernet0/0/0/4
+!
+route-policy ALL
+  pass
+end-policy
+!
+route-policy ODN-Reach
+  if next-hop in (100.0.0.1/32) then
+    set mpls traffic-eng attributeset ODN-IGP
+  endif
+  pass
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  100.0.0.0/24 Null0 254
+ !
+ vrf Mgmt-intf
+  address-family ipv4 unicast
+   10.16.0.0/16 198.18.1.1
+   10.64.0.0/16 198.18.1.1
+   198.18.128.0/18 198.18.1.1
+  !
+ !
+!
+router isis 1
+ is-type level-2-only
+ net 49.0001.1000.0000.0004.00
+ address-family ipv4 unicast
+  metric-style wide
+ !
+ interface Loopback0
+  passive
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  point-to-point
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  point-to-point
+  address-family ipv4 unicast
+  !
+ !
+!
+router bgp 64001
+ bgp router-id 100.0.0.4
+ address-family ipv4 unicast
+ !
+ address-family vpnv4 unicast
+ !
+ neighbor 100.0.0.1
+  remote-as 64001
+  description to xrvr-1
+  update-source Loopback0
+  address-family vpnv4 unicast
+  !
+ !
+ neighbor 100.0.0.10
+  remote-as 64002
+  description to xrvr-10
+  update-source Loopback0
+  address-family ipv4 unicast
+  !
+  address-family vpnv4 unicast
+  !
+ !
+ vrf RED
+  rd 1:1
+  address-family ipv4 unicast
+  !
+  neighbor 99.4.8.8
+   remote-as 2
+   address-family ipv4 unicast
+    route-policy ALL in
+    route-policy ALL out
+   !
+  !
+ !
+!
+mpls ldp
+ router-id 100.0.0.4
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+!
+ssh server v2
+ssh server vrf Mgmt-intf
+end
