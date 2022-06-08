@@ -20,3 +20,13 @@
       register: ping_output
     - name: Print Output
       debug: var=ping_output.stdout_lines 
+
+- hosts: ping-test
+  gather_facts: no
+  serial: 1
+  order: sorted
+  tasks:
+    - name: Ping from xrvr-1 to xrvr-8
+      cisco.iosxr.iosxr_config:
+        lines: 
+        - no segment-routing  
