@@ -1,4 +1,4 @@
-- hosts: iosxr
+- hosts: iosxrv-1
   gather_facts: no
   tasks:
     - debug: var=inventory_hostname
@@ -26,7 +26,7 @@
     - debug: var=inventory_hostname
       tags:
         - target
-    - debug: msg="/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.txt"
+    - debug: msg="/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.cfg"
       tags:
         - target
 
