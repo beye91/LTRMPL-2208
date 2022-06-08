@@ -1,4 +1,4 @@
-- hosts: iosxrv-1
+- hosts: iosxrv1
   gather_facts: no
   serial: 1
   order: sorted
@@ -8,9 +8,9 @@
         commands: ping vrf RED 100.0.0.8 count 10
       register: ping_output
     - name: Print Output
-      debug: var=ping_output 
+      debug: var=ping_output.stdout_lines 
 
-- hosts: iosxrv-4
+- hosts: iosxrv4
   gather_facts: no
   serial: 1
   order: sorted
@@ -20,4 +20,4 @@
         commands: ping vrf RED 100.0.0.7 count 10
       register: ping_output
     - name: Print Output
-      debug: var=ping_output 
+      debug: var=ping_output.stdout_lines 
