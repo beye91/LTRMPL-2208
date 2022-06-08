@@ -1,4 +1,3 @@
-Building configuration...
 !
 hostname xrvr-1
 logging console disable

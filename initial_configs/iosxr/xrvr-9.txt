@@ -1,4 +1,3 @@
-Building configuration...
 !
 hostname xrvr-9
 logging console disable
@@ -127,4 +126,3 @@ router bgp 64001
 !
 ssh server v2
 ssh server vrf Mgmt-intf
-end

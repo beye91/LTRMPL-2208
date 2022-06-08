@@ -1,4 +1,3 @@
-Building configuration...
 !
 hostname xrvr-6
 logging console disable
@@ -121,4 +120,3 @@ mpls ldp
 !
 ssh server v2
 ssh server vrf Mgmt-intf
-end
