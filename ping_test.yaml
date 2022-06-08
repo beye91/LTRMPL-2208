@@ -26,7 +26,7 @@
   serial: 1
   order: sorted
   tasks:
-    - name: Ping from xrvr-1 to xrvr-8
+    - name: Remove Segment Routing
       cisco.iosxr.iosxr_config:
         lines: 
         - no segment-routing  
