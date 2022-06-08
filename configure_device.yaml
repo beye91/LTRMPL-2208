@@ -1,5 +1,7 @@
-- hosts: iosxrv-1
+- hosts: iosxr
   gather_facts: no
+  serial: 1
+  order: sorted
   tasks:
     - debug: var=inventory_hostname
       tags:
