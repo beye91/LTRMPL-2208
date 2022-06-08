@@ -5,18 +5,7 @@
   tasks:
     - name: Apply Test Config
       cisco.iosxr.iosxr_config:
-        lines:
-        - traffic-eng
-        - policy 15
-        - binding-sid mpls 4002
-        - color 10 end-point ipv4 100.0.0.4
-        - autoroute
-        - include ipv4 100.0.0.4/32
-        - candidate-paths
-        - preference 60
-        - dynamic
-        - pcep
-        parents: segment-routing
+        src: "/home/cisco/LTRMPL-2208/ping_test/{{ inventory_hostname }}.cfg"
     - name: Ping from xrvr-1 to xrvr-8
       cisco.iosxr.iosxr_command:
         commands: ping vrf RED 100.0.0.8 count 10
@@ -31,18 +20,7 @@
   tasks:
     - name: Apply Test Config
       cisco.iosxr.iosxr_config:
-        lines:
-        - traffic-eng
-        - policy 15
-        - binding-sid mpls 4002
-        - color 10 end-point ipv4 100.0.0.1
-        - autoroute
-        - include ipv4 100.0.0.1/32
-        - candidate-paths
-        - preference 60
-        - dynamic
-        - pcep
-        parents: segment-routing
+        src: "/home/cisco/LTRMPL-2208/ping_test/{{ inventory_hostname }}.cfg"
     - name: Ping from xrvr-4 to xrvr-7
       cisco.iosxr.iosxr_command:
         commands: ping vrf RED 100.0.0.7 count 10
