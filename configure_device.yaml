@@ -3,13 +3,6 @@
   serial: 1
   order: sorted
   tasks:
-    - debug: var=inventory_hostname
-      tags:
-        - initial
-    - debug: msg="/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.txt"
-      tags:
-        - initial
-
     - name: Restore initial configs
       cisco.iosxr.iosxr_config:
         src: "/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.txt"
@@ -24,13 +17,6 @@
         match: none
       tags:
         - initial
-
-    - debug: var=inventory_hostname
-      tags:
-        - target
-    - debug: msg="/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.cfg"
-      tags:
-        - target
 
     - name: Apply target configs
       cisco.iosxr.iosxr_config:
@@ -50,8 +36,8 @@
     - name: Get running config
       cisco.iosxr.iosxr_command:
         commands: 
-        - show run | in hostname
-#        - show ip route vrf all 
-#        - show mpls forwarding
+        - show ip int brief
+        - show ip route vrf all 
+        - show mpls forwarding
       register: show_output
     - debug: var=show_output
