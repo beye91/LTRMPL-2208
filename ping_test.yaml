@@ -1,4 +1,4 @@
-- hosts: iosxrv1
+- hosts: ping-test
   gather_facts: no
   serial: 1
   order: sorted
@@ -6,24 +6,17 @@
     - name: Apply Test Config
       cisco.iosxr.iosxr_config:
         src: "/home/cisco/LTRMPL-2208/ping_test/{{ inventory_hostname }}.cfg"
+
+- hosts: ping-test
+  gather_facts: no
+  serial: 1
+  order: sorted
+  tasks:
     - name: Ping from xrvr-1 to xrvr-8
       cisco.iosxr.iosxr_command:
-        commands: ping vrf RED 100.0.0.8 count 10
-      register: ping_output
-    - name: Print Output
-      debug: var=ping_output.stdout_lines 
-
-- hosts: iosxrv4
-  gather_facts: no
-  serial: 1
-  order: sorted
-  tasks:
-    - name: Apply Test Config
-      cisco.iosxr.iosxr_config:
-        src: "/home/cisco/LTRMPL-2208/ping_test/{{ inventory_hostname }}.cfg"
-    - name: Ping from xrvr-4 to xrvr-7
-      cisco.iosxr.iosxr_command:
-        commands: ping vrf RED 100.0.0.7 count 10
+        commands: 
+        - ping vrf RED 100.0.0.8 count 10
+        - ping vrf RED 100.0.0.7 count 10
       register: ping_output
     - name: Print Output
       debug: var=ping_output.stdout_lines 
