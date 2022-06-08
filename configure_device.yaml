@@ -7,6 +7,7 @@
     - debug: msg="/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.txt"
       tags:
         - initial
+
     - name: Restore initial configs
       cisco.iosxr.iosxr_config:
         src: "/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.txt"
@@ -22,15 +23,22 @@
       tags:
         - initial
 
-    - name: Apply target configs
-      cisco.iosxr.iosxr_config:
-        src: "/home/cisco/LTRMPL-2208/target_configs/iosxr/{{ inventory_hostname }}.txt"
+    - debug: var=inventory_hostname
+      tags:
+        - target
+    - debug: msg="/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.txt"
       tags:
         - target
 
     - name: Apply target configs
       cisco.iosxr.iosxr_config:
-        src: "/home/cisco/LTRMPL-2208/target_configs/iosxr/{{ inventory_hostname }}.txt"
+        src: "/home/cisco/LTRMPL-2208/target_configs/iosxr/{{ inventory_hostname }}.cfg"
+      tags:
+        - target
+
+    - name: Apply target configs
+      cisco.iosxr.iosxr_config:
+        src: "/home/cisco/LTRMPL-2208/target_configs/iosxr/{{ inventory_hostname }}.cfg"
         replace: config
         force: yes
         match: none
