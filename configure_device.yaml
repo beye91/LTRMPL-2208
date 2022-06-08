@@ -1,7 +1,7 @@
 - hosts: iosxr
   gather_facts: no
   tasks:
-    - debug: var={{ inventory_hostname }}
+    - debug: var=inventory_hostname
       tags:
         - initial
 
