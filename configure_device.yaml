@@ -5,13 +5,13 @@
   tasks:
     - name: Restore initial configs
       cisco.iosxr.iosxr_config:
-        src: "/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.txt"
+        src: "/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.cfg"
       tags:
         - initial
 
     - name: Restore initial configs
       cisco.iosxr.iosxr_config:
-        src: "/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.txt"
+        src: "/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.cfg"
         replace: config
         force: yes
         match: none
@@ -40,4 +40,10 @@
         - show ip route vrf all 
         - show mpls forwarding
       register: show_output
-    - debug: var=show_output
+      tags:
+        - target
+        - initial
+    - debug: var=show_output.stdout_lines
+      tags:
+        - target
+        - initial
