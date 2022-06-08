@@ -279,6 +279,3 @@ segment-routing
 !
 ssh server v2
 ssh server vrf Mgmt-intf
-end
-
-RP/0/0/CPU0:xrvr-1#
