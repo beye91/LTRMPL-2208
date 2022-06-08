@@ -16,7 +16,7 @@
     - name: Replace Strings
       lineinfile:
         path: /tmp/LTRMPL-2208/current_configs/iosxr/{{ inventory_hostname }}.cfg
-        regexp: '(^!!.*|end|Building.*)'
+        regexp: '^!!.*|^end|^Building.*'
         state: absent
     - name: Register current file
       stat:
