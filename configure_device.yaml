@@ -14,6 +14,10 @@
       cisco.iosxr.iosxr_config:
         src: "/home/cisco/LTRMPL-2208/target_configs/iosxr/{{ inventory_hostname }}.txt"
         replace: config
+        force: yes
+        match: none
+      tags:
+        - target
 
     - name: Get running config
       cisco.iosxr.iosxr_command:
