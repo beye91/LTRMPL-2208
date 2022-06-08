@@ -13,9 +13,8 @@
 
     - name: Get running config
       cisco.iosxr.iosxr_command:
-        commands: 
-        - show cdp neig
-        - show ip route vrf all 
-        - show mpls forwarding
+        - show run | in hostname
+#        - show ip route vrf all 
+#        - show mpls forwarding
       register: show_output
     - debug: var=show_output
