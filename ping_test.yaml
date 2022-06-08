@@ -6,7 +6,6 @@
     - name: Apply Test Config
       cisco.iosxr.iosxr_config:
         lines:
-        - segment-routing
         - traffic-eng
         - policy 15
         - binding-sid mpls 4002
@@ -17,6 +16,7 @@
         - preference 60
         - dynamic
         - pcep
+        parents: segment-routing
     - name: Ping from xrvr-1 to xrvr-8
       cisco.iosxr.iosxr_command:
         commands: ping vrf RED 100.0.0.8 count 10
@@ -32,7 +32,6 @@
     - name: Apply Test Config
       cisco.iosxr.iosxr_config:
         lines:
-        - segment-routing
         - traffic-eng
         - policy 15
         - binding-sid mpls 4002
@@ -43,6 +42,7 @@
         - preference 60
         - dynamic
         - pcep
+        parents: segment-routing
     - name: Ping from xrvr-4 to xrvr-7
       cisco.iosxr.iosxr_command:
         commands: ping vrf RED 100.0.0.7 count 10
