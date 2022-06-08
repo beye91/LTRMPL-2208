@@ -1,4 +1,4 @@
-- hosts: ping-test
+- hosts: pingTest
   gather_facts: no
   serial: 1
   order: sorted
@@ -7,7 +7,7 @@
       cisco.iosxr.iosxr_config:
         src: "/home/cisco/LTRMPL-2208/ping_test/{{ inventory_hostname }}.cfg"
 
-- hosts: ping-test
+- hosts: pingTest
   gather_facts: no
   serial: 1
   order: sorted
@@ -21,7 +21,7 @@
     - name: Print Output
       debug: var=ping_output.stdout_lines 
 
-- hosts: ping-test
+- hosts: pingTest
   gather_facts: no
   serial: 1
   order: sorted

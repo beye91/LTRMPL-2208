@@ -7,7 +7,7 @@ xrvr-5 ansible_host=198.18.1.35
 xrvr-6 ansible_host=198.18.1.36
 xrvr-9 ansible_host=198.18.1.39
 
-[ping-test]
+[pingTest]
 xrvr-1 ansible_host=198.18.1.31
 xrvr-4 ansible_host=198.18.1.34
 
