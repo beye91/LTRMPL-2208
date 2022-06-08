@@ -37,6 +37,7 @@
       cisco.iosxr.iosxr_command:
         commands: 
         - show ip int brief
+        - show bgp all all summary
         - show ip route vrf all 
         - show mpls forwarding
       register: show_output
