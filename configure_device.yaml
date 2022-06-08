@@ -1,12 +1,12 @@
 - hosts: iosxr
   gather_facts: no
   tasks:
-    - debug: 
-        var=inventory_hostname
-        msg="/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.txt"
+    - debug: var=inventory_hostname
       tags:
         - initial
-
+    - debug: msg="/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.txt"
+      tags:
+        - initial
     - name: Restore initial configs
       cisco.iosxr.iosxr_config:
         src: "/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.txt"
