@@ -1,10 +1,10 @@
 - hosts: iosxr
   gather_facts: no
   tasks:
-#    - name: Restore initial configs
-#      cisco.iosxr.iosxr_config:
-#        src: "/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.txt"
-#        replace: config
+    - name: Restore initial configs
+      cisco.iosxr.iosxr_config:
+        src: "/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.txt"
+        replace: config
         
 #    - name: Apply target configs
 #      cisco.iosxr.iosxr_config:
