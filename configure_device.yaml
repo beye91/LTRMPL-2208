@@ -6,6 +6,7 @@
         src: "/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.txt"
         replace: config
         force: yes
+        match: none
       tags:
         - initial
 
