@@ -1,5 +1,7 @@
 - hosts: iosxr
   gather_facts: no
+  serial: 1
+  order: sorted
   tasks:
     - name: Get running config
       cisco.iosxr.iosxr_command:
