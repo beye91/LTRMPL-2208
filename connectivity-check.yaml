@@ -3,7 +3,7 @@
   tasks:
     - name: Execute show version 
       cisco.iosxr.iosxr_command:
-        commands: show version
-      register: show_version
-    - name: Print Output
-      debug: var=show_version 
+        commands: 
+        - show version
+        wait_for:
+        - result[0] contains Cisco IOS XR Software
