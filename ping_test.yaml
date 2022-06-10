@@ -20,6 +20,8 @@
       register: ping_output
     - name: Print Output
       debug: var=ping_output.stdout_lines 
+      tags:
+        - ping-only
 
 - hosts: pingTest
   gather_facts: no
