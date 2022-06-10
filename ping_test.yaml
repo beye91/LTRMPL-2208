@@ -18,6 +18,8 @@
         - ping vrf RED 100.0.0.8 count 10
         - ping vrf RED 100.0.0.7 count 10
       register: ping_output
+      tags:
+        - ping-only
     - name: Print Output
       debug: var=ping_output.stdout_lines 
       tags:
