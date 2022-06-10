@@ -1,5 +1,6 @@
 - hosts: iosxr
   gather_facts: no
+  order: sorted
   tasks:
     - name: Execute show version 
       cisco.iosxr.iosxr_command:
