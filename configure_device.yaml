@@ -33,7 +33,7 @@
       tags:
         - target
 
-    - name: Get running config
+    - name: Collect show outputs
       cisco.iosxr.iosxr_command:
         commands: 
         - show ip int brief
