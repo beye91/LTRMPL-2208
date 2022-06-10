@@ -6,4 +6,4 @@
         commands: 
         - show version
         wait_for:
-        - result[0] contains TEST
+        - result[0] contains Cisco IOS XR Software
