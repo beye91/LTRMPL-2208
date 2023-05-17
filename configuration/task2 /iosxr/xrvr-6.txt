@@ -1,0 +1,129 @@
+!
+hostname xrvr-6
+logging console disable
+domain name cisco-live.lab
+telnet vrf Mgmt-intf ipv4 server max-servers 10
+cdp
+vrf Mgmt-intf
+ address-family ipv4 unicast
+ !
+ address-family ipv6 unicast
+ !
+!
+line console
+ exec-timeout 0 0
+ absolute-timeout 0
+ session-timeout 0
+!
+line default
+ exec-timeout 0 0
+ absolute-timeout 0
+ session-timeout 0
+!
+alias a1 show route ipv4
+alias a6 show running-config mpls ldp
+alias a7 show mpls ldp neighbor brief
+alias b1 router isis 1; address-family ipv4 unicast; segment-routing mpls;commit; end
+alias b2 show isis database xrvr-1 verbose detail
+alias b3 show mpls label table
+alias b4 segment-routing; global-block 19000 20999; commit; end
+alias b5 show isis database xrvr-1 verbose detail
+alias b6 show mpls label table
+alias b7 router isis 1; interface loopback0; address-family ipv4 unicast; prefix-sid absolute 19006;commit; end
+alias b8 show isis segment-routing label table
+alias c1 router isis 1; address-family ipv4 unicast; segment-routing mpls sr-prefer;commit; end
+alias c6 no mpls ldp; commit; end
+alias c7 show running-config mpls
+alias c8 show running-config mpls traffic-eng
+alias c9 show mpls forwarding
+alias d1 router isis 1; address-family ipv4 unicast; mpls traffic-eng level-2-only; mpls traffic-eng router-id loopback0; root; mpls traffic-eng;commit;end
+alias e2 router isis 1; no interface gigabitethernet 0/0/0/1;commit;end
+alias e4 router bgp 64001;neighbor 99.5.6.5; no shutdown;commit;end
+alias e5 mpls traffic-eng; interface gigabitethernet0/0/0/1;commit;end
+alias e6 show isis segment-routing label table
+alias h2 router bgp 64001;address-family link-state link-state;neighbor 100.0.0.9;address-family link-state link-state; commit; end
+alias j4 interface GigabitEthernet 0/0/0/1; shutdown; commit; end
+alias j5 interface GigabitEthernet 0/0/0/1; no shutdown; commit; end
+alias a11 show running-config segment-routing
+alias c10 show mpls label table detail
+ipv4 unnumbered mpls traffic-eng Loopback0
+interface Loopback0
+ description Loopback
+ ipv4 address 100.0.0.6 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ vrf Mgmt-intf
+ ipv4 address 198.18.1.36 255.255.255.0
+!
+interface GigabitEthernet0/0/0/0
+ description to xrvr-1
+ cdp
+ ipv4 address 99.1.6.6 255.255.255.0
+!
+interface GigabitEthernet0/0/0/1
+ description to xrvr-5
+ cdp
+ ipv4 address 99.5.6.6 255.255.255.0
+!
+interface GigabitEthernet0/0/0/2
+ description to xrvr-2
+ cdp
+ ipv4 address 99.2.6.6 255.255.255.0
+!
+router static
+ address-family ipv4 unicast
+  100.0.0.0/24 Null0 254
+ !
+ vrf Mgmt-intf
+  address-family ipv4 unicast
+   10.16.0.0/16 198.18.1.1
+   10.64.0.0/16 198.18.1.1
+   198.18.128.0/18 198.18.1.1
+  !
+ !
+!
+router isis 1
+ is-type level-2-only
+ net 49.0001.1000.0000.0006.00
+ address-family ipv4 unicast
+  metric-style wide
+  segment-routing mpls
+ !
+ interface Loopback0
+  passive
+  address-family ipv4 unicast
+   prefix-sid absolute 19006
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  point-to-point
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  point-to-point
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  point-to-point
+  address-family ipv4 unicast
+  !
+ !
+!
+mpls ldp
+ router-id 100.0.0.6
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+!
+segment-routing
+ global-block 19000 20999
+!
+ssh server v2
+ssh server vrf Mgmt-intf
+end
+
