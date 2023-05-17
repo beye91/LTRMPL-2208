@@ -5,13 +5,13 @@
   tasks:
     - name: Restore initial configs
       cisco.iosxr.iosxr_config:
-        src: "/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.cfg"
+        src: "/home/cisco/LTRMPL-2208/configuration/initial/iosxr/{{ inventory_hostname }}.cfg"
       tags:
         - initial
 
     - name: Restore initial configs
       cisco.iosxr.iosxr_config:
-        src: "/home/cisco/LTRMPL-2208/initial_configs/iosxr/{{ inventory_hostname }}.cfg"
+        src: "/home/cisco/LTRMPL-2208/configuration/initial/iosxr/{{ inventory_hostname }}.cfg"
         replace: config
         force: yes
         match: none
@@ -20,18 +20,33 @@
 
     - name: Apply target configs
       cisco.iosxr.iosxr_config:
-        src: "/home/cisco/LTRMPL-2208/target_configs/iosxr/{{ inventory_hostname }}.cfg"
+        src: "/home/cisco/LTRMPL-2208/configuration/target/iosxr/{{ inventory_hostname }}.cfg"
       tags:
         - target
 
     - name: Apply target configs
       cisco.iosxr.iosxr_config:
-        src: "/home/cisco/LTRMPL-2208/target_configs/iosxr/{{ inventory_hostname }}.cfg"
+        src: "/home/cisco/LTRMPL-2208/configuration/target/iosxr/{{ inventory_hostname }}.cfg"
         replace: config
         force: yes
         match: none
       tags:
         - target
+
+      - name: Apply task configs
+      cisco.iosxr.iosxr_config:
+        src: "/home/cisco/LTRMPL-2208/configuration/{{ task }}/iosxr/{{ inventory_hostname }}.cfg"
+      tags:
+        - task
+
+    - name: Apply task configs
+      cisco.iosxr.iosxr_config:
+        src: "/home/cisco/LTRMPL-2208/configuration/{{ task }}/iosxr/{{ inventory_hostname }}.cfg"
+        replace: config
+        force: yes
+        match: none
+      tags:
+        - task
 
     - name: Collect show outputs
       cisco.iosxr.iosxr_command:
@@ -44,7 +59,9 @@
       tags:
         - target
         - initial
+        - task
     - debug: var=show_output.stdout_lines
       tags:
         - target
         - initial
+        - task
