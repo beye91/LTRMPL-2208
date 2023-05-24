@@ -33,7 +33,7 @@
       tags:
         - target
 
-      - name: Apply task configs
+    - name: Apply task configs
       cisco.iosxr.iosxr_config:
         src: "/home/cisco/LTRMPL-2208/configuration/{{ task }}/iosxr/{{ inventory_hostname }}.cfg"
       tags:
